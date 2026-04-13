@@ -1,0 +1,281 @@
+<!-- templates/confirm_dth_recharge.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm DTH Recharge - Recharge Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fb;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 20px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .confirm-card {
+            background: white;
+            border-radius: 20px;
+            margin: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .confirm-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .confirm-header i {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .confirm-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .confirm-body {
+            padding: 25px;
+        }
+
+        .details-table {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .details-table tr {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .details-table td {
+            padding: 12px 0;
+        }
+
+        .details-table td:first-child {
+            font-weight: 500;
+            color: #666;
+            width: 40%;
+        }
+
+        .details-table td:last-child {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .highlight-row {
+            background: #ecfdf5;
+            border-radius: 12px;
+        }
+
+        .highlight-row td {
+            padding: 15px 0;
+            font-size: 16px;
+        }
+
+        .highlight-row td:last-child {
+            color: #10b981;
+            font-size: 18px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-confirm {
+            flex: 1;
+            padding: 14px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-cancel {
+            flex: 1;
+            padding: 14px;
+            background: #f3f4f6;
+            color: #6b7280;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 12px;
+            color: #d97706;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #999;
+            text-decoration: none;
+            font-size: 11px;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('dth_recharge') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <div class="page-title">Confirm DTH Recharge</div>
+    </div>
+
+    <div class="confirm-card">
+        <div class="confirm-header">
+            <i class="fas fa-clipboard-list"></i>
+            <h3>Review Your DTH Recharge</h3>
+        </div>
+        <div class="confirm-body">
+            <table class="details-table">
+                <tr>
+                    <td><i class="fas fa-id-card"></i> Subscriber ID</td>
+                    <td>{{ subscriber_id }}</td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-building"></i> Operator</td>
+                    <td>{{ operator }}</td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-rupee-sign"></i> Recharge Amount</td>
+                    <td>₹{{ "%.2f"|format(amount) }}</td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-wallet"></i> Wallet Balance</td>
+                    <td>₹{{ "%.2f"|format(wallet_balance) }}</td>
+                </tr>
+                <tr class="highlight-row">
+                    <td><strong><i class="fas fa-calculator"></i> Balance After</strong></td>
+                    <td><strong>₹{{ "%.2f"|format(wallet_balance - amount) }}</strong></td>
+                </tr>
+            </table>
+
+            <div class="warning-box">
+                <i class="fas fa-shield-alt"></i>
+                <span>Please verify the subscriber ID and amount before confirming. This action cannot be undone.</span>
+            </div>
+
+            <div class="btn-group">
+                <form method="POST" action="{{ url_for('do_dth_recharge') }}" style="flex: 1;">
+                    <button type="submit" class="btn-confirm">
+                        <i class="fas fa-check-circle"></i> Confirm & Recharge
+                    </button>
+                </form>
+                <a href="{{ url_for('dth_recharge') }}" class="btn-cancel">
+                    <i class="fas fa-times-circle"></i> Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="{{ url_for('dashboard') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ url_for('mobile_recharge') }}" class="nav-item">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Mobile</span>
+        </a>
+        <a href="{{ url_for('dth_recharge') }}" class="nav-item">
+            <i class="fas fa-tv"></i>
+            <span>DTH</span>
+        </a>
+        <a href="{{ url_for('history') }}" class="nav-item">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+        <a href="{{ url_for('wallet') }}" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!-- templates/recharge_status.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recharge Status - Recharge Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fb;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 20px;
+            margin: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .status-icon {
+            padding: 40px 20px 20px;
+        }
+
+        .status-icon i {
+            font-size: 80px;
+        }
+
+        .status-icon .success { color: #10b981; }
+        .status-icon .failed { color: #dc2626; }
+        .status-icon .pending { color: #f59e0b; }
+
+        .status-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .status-title.success { color: #10b981; }
+        .status-title.failed { color: #dc2626; }
+        .status-title.pending { color: #f59e0b; }
+
+        .status-message {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .details-section {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: left;
+            border-top: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #666;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .action-buttons {
+            padding: 20px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            background: #f3f4f6;
+            color: #6b7280;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #999;
+            text-decoration: none;
+            font-size: 11px;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            color: #667eea;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .pending i {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{{ url_for('dashboard') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <div class="page-title">Recharge Status</div>
+    </div>
+
+    <div class="status-card">
+        <div class="status-icon">
+            {% if transaction.status == 'SUCCESS' %}
+                <i class="fas fa-check-circle success"></i>
+            {% elif transaction.status == 'FAILED' %}
+                <i class="fas fa-times-circle failed"></i>
+            {% else %}
+                <i class="fas fa-clock pending"></i>
+            {% endif %}
+        </div>
+        
+        <div class="status-title {% if transaction.status == 'SUCCESS' %}success{% elif transaction.status == 'FAILED' %}failed{% else %}pending{% endif %}">
+            {% if transaction.status == 'SUCCESS' %}
+                Recharge Successful!
+            {% elif transaction.status == 'FAILED' %}
+                Recharge Failed!
+            {% else %}
+                Recharge Pending
+            {% endif %}
+        </div>
+        
+        <div class="status-message">
+            {% if transaction.status == 'SUCCESS' %}
+                Your recharge has been completed successfully.
+            {% elif transaction.status == 'FAILED' %}
+                Your recharge failed. Please try again or contact support.
+            {% else %}
+                Your recharge is being processed. Please check back later.
+            {% endif %}
+        </div>
+
+        <div class="details-section">
+            <div class="detail-row">
+                <span class="detail-label">Transaction ID</span>
+                <span class="detail-value">{{ transaction.txn_id }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Recharge Type</span>
+                <span class="detail-value">{{ transaction.type }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">{{ 'Mobile Number' if transaction.type == 'MOBILE' else 'Subscriber ID' }}</span>
+                <span class="detail-value">{{ transaction.number }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Operator</span>
+                <span class="detail-value">{{ transaction.operator }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Amount</span>
+                <span class="detail-value">₹{{ "%.2f"|format(transaction.amount) }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Date & Time</span>
+                <span class="detail-value">{{ transaction.date[:16]|replace('T', ' ') }}</span>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ url_for('dashboard') }}" class="btn-primary">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="{{ url_for('history') }}" class="btn-secondary">
+                <i class="fas fa-history"></i> History
+            </a>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="{{ url_for('dashboard') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ url_for('mobile_recharge') }}" class="nav-item">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Mobile</span>
+        </a>
+        <a href="{{ url_for('dth_recharge') }}" class="nav-item">
+            <i class="fas fa-tv"></i>
+            <span>DTH</span>
+        </a>
+        <a href="{{ url_for('history') }}" class="nav-item">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+        <a href="{{ url_for('wallet') }}" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
+    </div>
+</body>
+</html>
